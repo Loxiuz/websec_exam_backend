@@ -1,7 +1,5 @@
 package com.websec_exam_backend.crew_member;
-
 import com.fasterxml.jackson.databind.JsonNode;
-import com.websec_exam_backend.crew_member_assignment.CrewMemberAssignmentService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

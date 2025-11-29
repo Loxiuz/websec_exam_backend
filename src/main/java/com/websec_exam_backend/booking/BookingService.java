@@ -1,7 +1,8 @@
 package com.websec_exam_backend.booking;
 
-import com.fasterxml.jackson.databind.JsonNode;
+
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 import java.util.stream.Collectors;
