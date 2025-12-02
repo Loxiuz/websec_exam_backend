@@ -1,5 +1,5 @@
 package com.websec_exam_backend.crew_member;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.JsonObject;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,17 +23,17 @@ public class CrewMemberService {
         ).toList();
     }
 
-    public List<CrewMemberDTO> getFilteredCrewMembers(List<JsonNode> crewMembers) {
+    public List<CrewMemberDTO> getFilteredCrewMembers(List<JsonObject> crewMembers) {
         System.out.println("Filters: " + crewMembers);
         List<CrewMemberDTO> crewMemberList = getAllCrewMembers();
 
-        for(JsonNode filter : crewMembers) {
-            JsonNode field = filter.get("crew_member").get("field");
-            JsonNode value = filter.get("crew_member").get("value");
+        for(JsonObject filter : crewMembers) {
+            JsonObject field = filter.getAsJsonObject("field");
+            JsonObject value = filter.getAsJsonObject("value");
 
             if(field != null && value != null) {
-                String fieldStr = field.asText();
-                String valueStr = value.asText();
+                String fieldStr = field.getAsString();
+                String valueStr = value.getAsString();
                 System.out.println("Field: " + fieldStr + ", Value: " + valueStr);
                 if(fieldStr.equals("id")) {
                     crewMemberList = crewMemberList.stream()

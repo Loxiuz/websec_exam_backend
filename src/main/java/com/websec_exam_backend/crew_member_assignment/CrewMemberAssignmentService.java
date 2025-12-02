@@ -1,6 +1,6 @@
 package com.websec_exam_backend.crew_member_assignment;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.JsonObject;
 import com.websec_exam_backend.crew_member.CrewMemberService;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +23,17 @@ public class CrewMemberAssignmentService {
         ).collect(Collectors.toList());
     }
 
-    public List<CrewMemberAssignmentDTO> getFilteredCrewMemberAssignments(List<JsonNode> filters) {
+    public List<CrewMemberAssignmentDTO> getFilteredCrewMemberAssignments(List<JsonObject> filters) {
         System.out.println("Filters: " + filters);
         List<CrewMemberAssignmentDTO> crewMemberAssignments = getAllCrewMemberAssignments();
 
-        for(JsonNode filter : filters) {
-            JsonNode field = filter.get("crew_member_assignment").get("field");
-            JsonNode value = filter.get("crew_member_assignment").get("value");
+        for(JsonObject filter : filters) {
+            JsonObject field = filter.getAsJsonObject("field");
+            JsonObject value = filter.getAsJsonObject("value");
 
             if(field != null && value != null) {
-                String fieldStr = field.asText();
-                String valueStr = value.asText();
+                String fieldStr = field.getAsString();
+                String valueStr = value.getAsString();
                 System.out.println("Field: " + fieldStr + ", Value: " + valueStr);
                     if(fieldStr.equals("crewMemberId")) {
                         crewMemberAssignments = crewMemberAssignments.stream()

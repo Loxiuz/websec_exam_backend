@@ -1,8 +1,8 @@
 package com.websec_exam_backend.booking;
 
 
+import com.google.gson.JsonObject;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,17 +22,17 @@ public class BookingService {
                 .collect(Collectors.toList());
     }
 
-    public List<BookingDTO> getFilteredBookings(List<JsonNode> filters) {
+    public List<BookingDTO> getFilteredBookings(List<JsonObject> filters) {
         System.out.println("Filters: " + filters);
         List<BookingDTO> bookings = getBookings();
 
-        for(JsonNode filter : filters) {
-            JsonNode field = filter.get("booking").get("field");
-            JsonNode value = filter.get("booking").get("value");
+        for(JsonObject filter : filters) {
+            JsonObject field = filter.getAsJsonObject("field");
+            JsonObject value = filter.getAsJsonObject("value");
 
             if(field != null && value != null) {
-                String fieldStr = field.asText();
-                String valueStr = value.asText();
+                String fieldStr = field.getAsString();
+                String valueStr = value.getAsString();
                 System.out.println("Field: " + fieldStr + ", Value: " + valueStr);
 
                 if (fieldStr.equals("flightNumber")) {

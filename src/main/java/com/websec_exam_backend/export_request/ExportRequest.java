@@ -1,5 +1,4 @@
 package com.websec_exam_backend.export_request;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.websec_exam_backend.employee.Employee;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,6 +9,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -31,7 +31,7 @@ public class ExportRequest {
     private String appliedFiltersJson;
 
     @Transient
-    private List<JsonNode> appliedFilters;
+    private List<Map<String, FilterDTO>> appliedFilters;
 
     private String exportFormat;
 
@@ -43,7 +43,9 @@ public class ExportRequest {
 
     private String fileSize;
 
-    public void setAppliedFilters(List<JsonNode> filters) {
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    public void setAppliedFilters(List<Map<String, FilterDTO>> filters) {
         this.appliedFilters = filters;
         try {
             this.appliedFiltersJson = new ObjectMapper().writeValueAsString(filters);
@@ -52,11 +54,14 @@ public class ExportRequest {
         }
     }
 
-    public List<JsonNode> getAppliedFilters() {
+    public List<Map<String, FilterDTO>> getAppliedFilters() {
         if (appliedFilters == null && appliedFiltersJson != null) {
             try {
-                appliedFilters = new ObjectMapper().readValue(appliedFiltersJson,
-                        new ObjectMapper().getTypeFactory().constructCollectionType(List.class, JsonNode.class));
+                var type = mapper.getTypeFactory().constructCollectionType(
+                        List.class,
+                        mapper.getTypeFactory().constructMapType(Map.class, String.class, FilterDTO.class)
+                );
+                appliedFilters = mapper.readValue(appliedFiltersJson, type);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

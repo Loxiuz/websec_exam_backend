@@ -1,4 +1,4 @@
-package com.websec_exam_backendwebsec_exam_backend;
+package com.websec_exam_backend;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

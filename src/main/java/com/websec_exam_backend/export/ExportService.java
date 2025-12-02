@@ -1,5 +1,6 @@
 package com.websec_exam_backend.export;
 
+import com.google.gson.JsonObject;
 import com.websec_exam_backend.booking.BookingDTO;
 import com.websec_exam_backend.booking.BookingService;
 import com.websec_exam_backend.crew_member.CrewMemberDTO;
@@ -7,15 +8,16 @@ import com.websec_exam_backend.crew_member.CrewMemberService;
 import com.websec_exam_backend.crew_member_assignment.CrewMemberAssignmentDTO;
 import com.websec_exam_backend.crew_member_assignment.CrewMemberAssignmentService;
 import com.websec_exam_backend.export_request.ExportRequest;
+import com.websec_exam_backend.export_request.FilterDTO;
 import com.websec_exam_backend.flight.FlightDTO;
 import com.websec_exam_backend.flight.FlightService;
 import com.websec_exam_backend.passenger.PassengerDTO;
 import com.websec_exam_backend.passenger.PassengerService;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExportService {
@@ -39,12 +41,39 @@ public class ExportService {
         if(selectedEntities.isEmpty() || selectedEntities.get(0).isEmpty() ){
             throw new IllegalArgumentException("Selected entities cannot be empty");
         }
-        List<JsonNode> appliedFilters = exportRequest.getAppliedFilters();
+
+        List<JsonObject> appliedFilters = exportRequest.getAppliedFilters().stream().map(filter -> {
+            JsonObject filterObj = new JsonObject();
+            JsonObject fieldAndValue = new JsonObject();
+            String entity = "";
+
+            Optional<String> optKey = filter.keySet().stream().findFirst();
+            if(optKey.isPresent()){
+                entity = optKey.get();
+            }
+
+            Optional<FilterDTO> filterMapValues = filter.values().stream().findFirst();
+            if(filterMapValues.isPresent()){
+                FilterDTO filterDTO = filterMapValues.get();
+                String field = filterDTO.field();
+                String value = filterDTO.value();
+                fieldAndValue.addProperty("field", field);
+                fieldAndValue.addProperty("value", value);
+            }
+
+            filterObj.add(entity, fieldAndValue);
+
+            return filterObj;
+        }
+        ).toList();
+
+        System.out.println("Applied filters: " + appliedFilters);
+
         String exportFormat = exportRequest.getExportFormat();
         return createExport(selectedEntities, appliedFilters, exportFormat);
     }
 
-    private byte[] createExport(List<String> selectedEntities, List<JsonNode> appliedFilters, String exportFormat){
+    private byte[] createExport(List<String> selectedEntities, List<JsonObject> appliedFilters, String exportFormat){
         if(exportFormat.equalsIgnoreCase("csv")){
             return exportToCsv(selectedEntities, appliedFilters, exportFormat);
         } else if (exportFormat.equalsIgnoreCase("json")) {
@@ -55,7 +84,7 @@ public class ExportService {
         }
     }
 
-    private byte[] exportToCsv(List<String> selectedEntities, List<JsonNode> appliedFilters, String exportFormat) {
+    private byte[] exportToCsv(List<String> selectedEntities, List<JsonObject> appliedFilters, String exportFormat) {
         StringBuilder builder = new StringBuilder();
 
         for (String selectedEntity : selectedEntities) {
@@ -69,7 +98,7 @@ public class ExportService {
         return builder.toString().getBytes();
     }
 
-    private byte[] exportToJson(List<String> selectedEntities, List<JsonNode> appliedFilters, String exportFormat) {
+    private byte[] exportToJson(List<String> selectedEntities, List<JsonObject> appliedFilters, String exportFormat) {
         StringBuilder builder = new StringBuilder();
         builder.append("[\n");
 
@@ -93,7 +122,7 @@ public class ExportService {
         return builder.toString().getBytes();
     }
 
-    private ExportStructure buildExportStructureForEntity(String selectedEntity, List<JsonNode> appliedFilters, String exportFormat) {
+    private ExportStructure buildExportStructureForEntity(String selectedEntity, List<JsonObject> appliedFilters, String exportFormat) {
         return switch (selectedEntity.toLowerCase()) {
             case "flight" -> {
                 List<FlightDTO> flights = flightService.getFilteredFlights(

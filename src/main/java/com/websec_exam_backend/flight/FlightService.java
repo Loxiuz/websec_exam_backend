@@ -1,7 +1,7 @@
 package com.websec_exam_backend.flight;
 
+import com.google.gson.JsonObject;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 
 @Service
@@ -26,17 +26,18 @@ public class FlightService {
             .toList();
     }
 
-    public List<FlightDTO> getFilteredFlights(List<JsonNode> filters) {
+    public List<FlightDTO> getFilteredFlights(List<JsonObject> filters) {
         System.out.println("Filters: " + filters);
         List<FlightDTO> flights = getAllFlights();
 
-        for (JsonNode filter : filters) {
-            JsonNode field = filter.get("flight").get("field");
-            JsonNode value = filter.get("flight").get("value");
+        for (JsonObject filter : filters) {
+            JsonObject field = filter.getAsJsonObject("field");
+            JsonObject value = filter.getAsJsonObject("value");
 
             if (field != null && value != null) {
-                String fieldStr = field.asText();
-                String valueStr = value.asText();
+                String fieldStr = field.getAsString();
+                String valueStr = value.getAsString();
+                System.out.println(fieldStr + ": " + valueStr);
                 System.out.println("Field: " + fieldStr + ", Value: " + valueStr);
 
                 if (fieldStr.equals("flightNumber")) {
