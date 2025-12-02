@@ -55,10 +55,8 @@ public class ExportService {
             Optional<FilterDTO> filterMapValues = filter.values().stream().findFirst();
             if(filterMapValues.isPresent()){
                 FilterDTO filterDTO = filterMapValues.get();
-                String field = filterDTO.field();
-                String value = filterDTO.value();
-                fieldAndValue.addProperty("field", field);
-                fieldAndValue.addProperty("value", value);
+                fieldAndValue.addProperty("field", filterDTO.field());
+                fieldAndValue.addProperty("value", filterDTO.value());
             }
 
             filterObj.add(entity, fieldAndValue);
