@@ -5,6 +5,8 @@ import com.websec_exam_backend.employee.EmployeeService;
 import com.websec_exam_backend.export.ExportService;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ExportRequestService {
 
@@ -32,6 +34,7 @@ public class ExportRequestService {
         if (exportRequestFromDto.getSelectedEntities() == null || exportRequestFromDto.getSelectedEntities().isEmpty()) {
             throw new IllegalArgumentException("Selected entities cannot be null or empty");
         } else {
+            exportRequestFromDto.setId(UUID.randomUUID());
             exportRequestRepository.save(exportRequestFromDto);
 
             byte[] exportOutput = exportService.processExportRequest(exportRequestFromDto);

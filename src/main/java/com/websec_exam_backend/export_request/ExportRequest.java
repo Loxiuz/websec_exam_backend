@@ -10,6 +10,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,8 +19,7 @@ import java.util.Map;
 public class ExportRequest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private UUID id;
 
     @ManyToOne
     private Employee employee;
