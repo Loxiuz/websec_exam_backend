@@ -31,3 +31,10 @@ INSERT INTO booking (flight_id, passenger_id, booking_number, seat_number, statu
                                                                                        (1, 1, 'BK001', '12A', 'Confirmed'),
                                                                                        (1, 2, 'BK002', '14B', 'Cancelled'),
                                                                                        (2, 3, 'BK003', '7C', 'Confirmed');
+INSERT INTO `users` VALUES
+                        (1,'$2a$10$5PiyN0MsG0y886d8xWXtwuLXK0Y7zZwcN5xm82b4oDSVr7yF0O6em','ramesh'),
+                        (2,'$2a$10$gqHrslMttQWSsDSVRTK1OehkkBiXsJ/a4z2OURU./dizwOQu5Lovu','admin');
+
+INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
+
+INSERT INTO `users_roles` VALUES (2,1),(1,2);
