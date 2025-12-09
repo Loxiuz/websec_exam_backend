@@ -1,5 +1,6 @@
 package com.websec_exam_backend.export_request;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +14,7 @@ public class ExportRequestController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<byte[]> exportDataFromEntities(@RequestBody ExportRequestDTO exportRequestDTO){
         System.out.println(exportRequestDTO.appliedFilters().toString());
         byte[] fileBytes = exportRequestService.handleExportRequest(exportRequestDTO);
@@ -31,6 +33,7 @@ public class ExportRequestController {
     }
 
     @GetMapping("/all-requests")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<ExportRequestDTO[]> getAllExportRequests() {
         ExportRequestDTO[] exportRequests = exportRequestService.getAllExportRequests();
         if (exportRequests != null && exportRequests.length > 0) {

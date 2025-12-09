@@ -1,5 +1,6 @@
 package com.websec_exam_backend.user_login;
 
+import com.websec_exam_backend.employee.Employee;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,4 +30,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<Role> roles;
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 }
