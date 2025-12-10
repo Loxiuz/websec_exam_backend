@@ -14,7 +14,7 @@ public class ExportRequestController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<byte[]> exportDataFromEntities(@RequestBody ExportRequestDTO exportRequestDTO){
         System.out.println(exportRequestDTO.appliedFilters().toString());
         byte[] fileBytes = exportRequestService.handleExportRequest(exportRequestDTO);
@@ -33,7 +33,7 @@ public class ExportRequestController {
     }
 
     @GetMapping("/all-requests")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<ExportRequestDTO[]> getAllExportRequests() {
         ExportRequestDTO[] exportRequests = exportRequestService.getAllExportRequests();
         if (exportRequests != null && exportRequests.length > 0) {
