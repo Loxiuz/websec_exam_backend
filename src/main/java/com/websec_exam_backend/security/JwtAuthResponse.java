@@ -12,6 +12,6 @@ import lombok.Setter;
 public class JwtAuthResponse {
     private String accessToken;
     private String role;
-    private Integer employeeId;
+    private String employeeId;
     private String username;
 }

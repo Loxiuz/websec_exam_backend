@@ -2,5 +2,7 @@ package com.websec_exam_backend.employee;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+import java.util.UUID;
+
+public interface EmployeeRepository extends JpaRepository<Employee, UUID> {
 }

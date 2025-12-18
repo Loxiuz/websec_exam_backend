@@ -3,9 +3,9 @@ INSERT INTO airport (city, country) VALUES
                                         ('London', 'United Kingdom'),
                                         ('Berlin', 'Germany');
 
-INSERT INTO employee (email, name) VALUES
-                                       ('anna.hansen@airline.com', 'Anna Hansen'),
-                                       ('michael.smith@airline.com', 'Michael Smith');
+INSERT INTO employee (id, email, name) VALUES
+                                       (UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'),'anna.hansen@airline.com', 'Anna Hansen'),
+                                       (UUID_TO_BIN('a197665b-5fa9-4bf7-8344-2cc303a15f09'),'michael.smith@airline.com', 'Michael Smith');
 
 INSERT INTO crew_member (email, name, phone_number) VALUES
                                                         ('pilot.john@airline.com', 'John Peterson', '+4511122233'),
@@ -32,8 +32,8 @@ INSERT INTO booking (flight_id, passenger_id, booking_number, seat_number, statu
                                                                                        (1, 2, 'BK002', '14B', 'Cancelled'),
                                                                                        (2, 3, 'BK003', '7C', 'Confirmed');
 INSERT INTO `users` VALUES
-                        (1,1,'$2a$12$VcTGnkiGTDuFrE/BT8mR4uUpmoKvO/yFWJzbqE.Wzu1J1jKkj3gBi','ramesh'),
-                        (2,2,'$2a$12$UjaMRw0tknm8BeXbD8MVp.g42jcWFKYy3L0dQdds3BIf4zlnR2Dvm','admin');
+                        (1,UUID_TO_BIN('a197665b-5fa9-4bf7-8344-2cc303a15f09'),'$2a$12$VcTGnkiGTDuFrE/BT8mR4uUpmoKvO/yFWJzbqE.Wzu1J1jKkj3gBi','ramesh'),
+                        (2,UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'),'$2a$12$UjaMRw0tknm8BeXbD8MVp.g42jcWFKYy3L0dQdds3BIf4zlnR2Dvm','admin');
 
 INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
 

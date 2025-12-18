@@ -50,7 +50,7 @@ public class AuthService {
         jwtAuthResponse.setAccessToken(jwt);
         User user = userRepository.findByUsername(jwtTokenProvider.getUsername(jwt))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        jwtAuthResponse.setEmployeeId(user.getEmployee().getId());
+        jwtAuthResponse.setEmployeeId(user.getEmployee().getId().toString());
         jwtAuthResponse.setRole(user.getRoles().iterator().next().getName());
         jwtAuthResponse.setUsername(user.getUsername());
 

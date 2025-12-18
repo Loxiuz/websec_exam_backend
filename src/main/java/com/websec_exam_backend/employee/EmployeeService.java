@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class EmployeeService {
@@ -15,7 +16,7 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Employee getEmployee(int id) {
+    public Employee getEmployee(UUID id) {
         Optional<Employee> employee = employeeRepository.findById(id);
         if (employee.isPresent()) {
             return employee.get();
@@ -25,7 +26,7 @@ public class EmployeeService {
     }
 
     public void saveImage(String id, MultipartFile file) throws IOException {
-        Employee employee = getEmployee(Integer.parseInt(id));
+        Employee employee = getEmployee(UUID.fromString(id));
 
         employee.setImage(file.getBytes());
 
@@ -33,7 +34,7 @@ public class EmployeeService {
     }
 
     public byte[] getImage(String id) {
-        Employee employee = getEmployee(Integer.parseInt(id));
+        Employee employee = getEmployee(UUID.fromString(id));
         return employee.getImage();
     }
 }

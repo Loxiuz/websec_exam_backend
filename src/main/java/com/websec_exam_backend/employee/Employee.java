@@ -3,7 +3,10 @@ package com.websec_exam_backend.employee;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
+
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -12,8 +15,9 @@ import lombok.Setter;
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @NonNull
+    private UUID id;
 
     private String name;
 
