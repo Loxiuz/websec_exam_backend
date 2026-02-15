@@ -39,6 +39,22 @@ public class AuthController {
 
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
+        Cookie accessToken = new Cookie("accessToken", null);
+        accessToken.setHttpOnly(true);
+        accessToken.setSecure(true);
+        accessToken.setPath("/");
+        accessToken.setMaxAge(0);
+
+        response.addCookie(accessToken);
+
+        Map<String, String> logoutResponse = new HashMap<>();
+        logoutResponse.put("message", "Logged out successfully");
+
+        return ResponseEntity.ok(logoutResponse);
+    }
+
     @GetMapping("/logged-in")
     public ResponseEntity<Map<String, Boolean>> isLoggedIn(HttpServletRequest request) {
         boolean loggedIn = authService.isLoggedIn(request);
