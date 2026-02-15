@@ -31,7 +31,7 @@ public class SpringSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) {
 
         http.csrf(csrf -> csrf.disable())
-                .headers(headers -> headers.xssProtection(HeadersConfigurer.XXssConfig::disable)) //X-XSS-Protection is deprecated
+                .headers(headers -> headers.xssProtection(xXssConfig -> xXssConfig.disable())) //X-XSS-Protection is deprecated
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/auth/**").permitAll();
                     authorize.anyRequest().authenticated();
