@@ -40,8 +40,8 @@ INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
 INSERT INTO `users_roles` VALUES (2,1),(1,2);
 
 INSERT INTO export_request values
-                            (DATE('2025-08-12'),UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'),1,'csv', 'exported_flight_data.csv', '', 'flight, booking', 'COMPLETED' , ''),
-                            (DATE('2025-08-13'),UUID_TO_BIN('a197665b-5fa9-4bf7-8344-2cc303a15f09'),2,'csv', 'exported_passenger_data.csv', '', 'passenger, booking', 'COMPLETED' , ''),
-                            (DATE('2025-08-14'),UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'),3,'csv', 'exported_crew_data.csv', '', 'crew_member, crew_member_assignment', 'FAILED' , ''),
-                            (DATE('2025-08-15'),UUID_TO_BIN('a197665b-5fa9-4bf7-8344-2cc303a15f09'),4,'csv', 'exported_airport_data.csv', '', 'booking', 'COMPLETED' , ''),
-                            (DATE('2025-08-16'),UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'),5,'csv', 'exported_employee_data.csv', '', 'crew_member', 'COMPLETED' , '');
+                            (DATE('2025-08-12'),UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'),1,'csv', 'exported_flight_data.csv', '', 'flight, booking', 'COMPLETED' , '[{"flight":{"field":"","value":""}},{"booking":{"field":"","value":""}}]'),
+                            (DATE('2025-08-13'),UUID_TO_BIN('a197665b-5fa9-4bf7-8344-2cc303a15f09'),2,'csv', 'exported_passenger_data.csv', '', 'passenger, booking', 'COMPLETED' , '[{"passenger":{"field":"","value":""}},{"booking":{"field":"","value":""}}]'),
+                            (DATE('2025-08-14'),UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'),3,'csv', 'exported_crew_data.csv', '', 'crew_member, crew_member_assignment', 'FAILED' , '[{"crew_member":{"field":"","value":""}},{"crew_member_assignment":{"field":"","value":""}}]'),
+                            (DATE('2025-08-15'),UUID_TO_BIN('a197665b-5fa9-4bf7-8344-2cc303a15f09'),4,'csv', 'exported_airport_data.csv', '', 'booking', 'COMPLETED' , '[{"booking":{"field":"","value":""}}]'),
+                            (DATE('2025-08-16'),UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'),5,'csv', 'exported_employee_data.csv', '', 'crew_member', 'COMPLETED' , '[{"crew_member":{"field":"","value":""}}]');
