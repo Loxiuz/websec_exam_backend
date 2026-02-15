@@ -39,7 +39,7 @@ public class SpringSecurityConfig {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .headers(headers -> headers.xssProtection(HeadersConfigurer.XXssConfig::disable));
+                .headers(headers -> headers.xssProtection(HeadersConfigurer.XXssConfig::disable)); //X-XSS-Protection is deprecated
         return http.build();
     }
 
