@@ -1,8 +1,8 @@
 package com.websec_exam_backend.security;
 
-import com.websec_exam_backend.user_login.LoginDTO;
-import com.websec_exam_backend.user_login.User;
-import com.websec_exam_backend.user_login.UserRepository;
+import com.websec_exam_backend.dto.LoginDTO;
+import com.websec_exam_backend.model.User;
+import com.websec_exam_backend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
