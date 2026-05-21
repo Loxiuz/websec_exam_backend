@@ -1,4 +1,5 @@
 package com.websec_exam_backend.controller;
+import com.websec_exam_backend.dto.ExportNotesDTO;
 import com.websec_exam_backend.dto.ExportRequestDTO;
 import com.websec_exam_backend.service.ExportRequestService;
 import org.springframework.http.*;
@@ -32,6 +33,17 @@ public class ExportRequestController {
         }
 
         return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/notes/all")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<ExportNotesDTO[]> getAllExportRequestNotes() {
+        ExportNotesDTO[] notes = exportRequestService.getAllExportNotes();
+        if (notes != null && notes.length > 0) {
+            return new ResponseEntity<>(notes, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/all-requests")

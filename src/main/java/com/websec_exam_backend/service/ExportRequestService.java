@@ -1,8 +1,11 @@
 package com.websec_exam_backend.service;
 
+import com.websec_exam_backend.dto.ExportNotesDTO;
 import com.websec_exam_backend.dto.ExportRequestDTO;
 import com.websec_exam_backend.model.Employee;
+import com.websec_exam_backend.model.ExportNotes;
 import com.websec_exam_backend.model.ExportRequest;
+import com.websec_exam_backend.repository.ExportNotesRepository;
 import com.websec_exam_backend.repository.ExportRequestRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +15,14 @@ import java.util.UUID;
 public class ExportRequestService {
 
     private final ExportRequestRepository exportRequestRepository;
+    private final ExportNotesRepository exportNotesRepository;
     private final ExportService exportService;
     private final EmployeeService employeeService;
 
 
-    public ExportRequestService(ExportRequestRepository exportRequestRepository, ExportService exportService, EmployeeService employeeService) {
+    public ExportRequestService(ExportRequestRepository exportRequestRepository, ExportNotesRepository exportNotesRepository, ExportService exportService, EmployeeService employeeService) {
         this.exportRequestRepository = exportRequestRepository;
+        this.exportNotesRepository = exportNotesRepository;
         this.exportService = exportService;
         this.employeeService = employeeService;
     }
@@ -26,6 +31,12 @@ public class ExportRequestService {
         return exportRequestRepository.findAll().stream()
                 .map(this::toDTO)
                 .toArray(ExportRequestDTO[]::new);
+    }
+
+    public ExportNotesDTO[] getAllExportNotes() {
+        return  exportNotesRepository.findAll().stream()
+                .map(this::toDTO)
+                .toArray(ExportNotesDTO[]::new);
     }
 
     public byte[] handleExportRequest(ExportRequestDTO exportRequestDTO) {
@@ -82,6 +93,15 @@ public class ExportRequestService {
                 exportRequest.getFileName(),
                 exportRequest.getStatus(),
                 exportRequest.getFileSize()
+        );
+    }
+
+    private ExportNotesDTO toDTO(ExportNotes exportNotes) {
+        return new ExportNotesDTO(
+                exportNotes.getId(),
+                exportNotes.getExportRequest().getId(),
+                exportNotes.getEmployee().getId(),
+                exportNotes.getNotes()
         );
     }
 }
