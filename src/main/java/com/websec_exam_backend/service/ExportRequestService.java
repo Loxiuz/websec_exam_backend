@@ -39,6 +39,13 @@ public class ExportRequestService {
                 .toArray(ExportNotesDTO[]::new);
     }
 
+    public ExportNotesDTO[] getAllExportNotesFromRequestId(UUID exportRequestId) {
+        return exportNotesRepository.findAll().stream()
+                .filter(note -> note.getExportRequest().getId().equals(exportRequestId))
+                .map(this::toDTO)
+                .toArray(ExportNotesDTO[]::new);
+    }
+
     public byte[] handleExportRequest(ExportRequestDTO exportRequestDTO) {
         ExportRequest exportRequestFromDto = fromDTO(exportRequestDTO);
         exportRequestFromDto.setStatus("PENDING"); // Overvej om det skal være enum
@@ -67,6 +74,13 @@ public class ExportRequestService {
         }
     }
 
+    public UUID createExportRequestNotes(ExportNotesDTO exportNotesDTO) {
+        ExportNotes notes = fromDTO(exportNotesDTO);
+        notes.setId(UUID.randomUUID());
+        exportNotesRepository.save(notes);
+        return notes.getId();
+    }
+
     private ExportRequest fromDTO(ExportRequestDTO exportRequestDTO) {
         ExportRequest exportRequest = new ExportRequest();
         Employee employee = employeeService.getEmployee(exportRequestDTO.employeeId());
@@ -82,6 +96,7 @@ public class ExportRequestService {
         return exportRequest;
     }
 
+
     private ExportRequestDTO toDTO(ExportRequest exportRequest) {
         return new ExportRequestDTO(
                 exportRequest.getId(),
@@ -96,12 +111,34 @@ public class ExportRequestService {
         );
     }
 
+    private ExportNotes fromDTO(ExportNotesDTO exportNotesDTO) {
+        ExportNotes exportNotes = new ExportNotes();
+        Employee employee = employeeService.getEmployee(exportNotesDTO.employeeId());
+        if (employee == null) {
+            throw new IllegalArgumentException("Employee from ExportNotesDTO not found");
+        }
+        exportNotes.setEmployee(employee);
+
+        ExportRequest exportRequest = exportRequestRepository.findById(
+                exportNotesDTO.exportRequestId()).orElseThrow(
+                        () -> new IllegalArgumentException("ExportRequest from ExportNotesDTO not found")
+        );
+
+        exportNotes.setExportRequest(exportRequest);
+        exportNotes.setNotes(exportNotesDTO.notes());
+
+        return exportNotes;
+    }
+
     private ExportNotesDTO toDTO(ExportNotes exportNotes) {
         return new ExportNotesDTO(
                 exportNotes.getId(),
                 exportNotes.getExportRequest().getId(),
                 exportNotes.getEmployee().getId(),
-                exportNotes.getNotes()
+                exportNotes.getNotes(),
+                exportNotes.getCreationDate().toString()
         );
     }
+
+
 }

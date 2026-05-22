@@ -6,7 +6,9 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -21,4 +23,6 @@ public class ExportNotes {
     @ManyToOne
     private Employee employee;
     private String notes;
+    @CreationTimestamp
+    private LocalDateTime creationDate;
 }
