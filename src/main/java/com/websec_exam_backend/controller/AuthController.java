@@ -1,6 +1,7 @@
 package com.websec_exam_backend.controller;
 
 import com.websec_exam_backend.dto.LoginDTO;
+import com.websec_exam_backend.dto.AuthorizationDTO;
 import com.websec_exam_backend.security.AuthService;
 import com.websec_exam_backend.security.JwtAuthResponse;
 import jakarta.servlet.http.Cookie;
@@ -21,7 +22,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<HashMap<String, String>> authenticate(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
+    public ResponseEntity<String> authenticate(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
         JwtAuthResponse jwtAuthResponse = authService.login(loginDto);
 
         Cookie accessToken = new Cookie("accessToken", jwtAuthResponse.getAccessToken());
@@ -32,12 +33,7 @@ public class AuthController {
 
         response.addCookie(accessToken);
 
-        HashMap<String, String> authResponse = new HashMap<>();
-        authResponse.put("employeeId", String.valueOf(jwtAuthResponse.getEmployeeId()));
-        authResponse.put("role", jwtAuthResponse.getRole());
-        authResponse.put("username", jwtAuthResponse.getUsername());
-
-        return ResponseEntity.ok().body(authResponse);
+        return ResponseEntity.ok("Login successful");
 
     }
 
@@ -66,6 +62,15 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
 
+    }
+
+    @GetMapping("/me/permissions")
+    public ResponseEntity<AuthorizationDTO> getCurrentUserPermissions(HttpServletRequest request) {
+        AuthorizationDTO authorizationDTO = authService.getCurrentUserPermissions(request);
+        if(authorizationDTO == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(authorizationDTO);
     }
 
 }

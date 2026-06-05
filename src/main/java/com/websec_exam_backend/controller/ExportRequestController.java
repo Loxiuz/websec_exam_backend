@@ -58,7 +58,7 @@ public class ExportRequestController {
         }
     }
 
-    @GetMapping("/notes/{exportRequestId}")
+    @GetMapping("/{exportRequestId}/notes")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<ExportNotesDTO[]> getAllExportNotesFromRequestId(@PathVariable UUID exportRequestId) {
         ExportNotesDTO[] notes = exportRequestService.getAllExportNotesFromRequestId(exportRequestId);
