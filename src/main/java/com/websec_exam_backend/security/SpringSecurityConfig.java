@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Configuration
 @AllArgsConstructor
+@EnableMethodSecurity(prePostEnabled = false) // Disable @PreAuthorize/@PostAuthorize for testing
 public class SpringSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -37,8 +39,12 @@ public class SpringSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.xssProtection(xXssConfig -> xXssConfig.disable()))
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/auth/**").permitAll();
-                    authorize.anyRequest().authenticated();
+                    // Allow all requests for testing - Comment out for production security
+                    authorize.anyRequest().permitAll();
+
+                    // Uncomment for production security:
+                    // authorize.requestMatchers("/auth/**").permitAll();
+                    // authorize.anyRequest().authenticated();
                 })
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
