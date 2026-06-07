@@ -18,4 +18,6 @@ public interface RoleRepository extends JpaRepository<Role, UUID>{
         WHERE r.id = :roleId
     """)
     Set<Permission> findPermissionsByRoleId(@Param("roleId") Long roleId);
+
+    Role findRoleByRoleName(String roleName);
 }

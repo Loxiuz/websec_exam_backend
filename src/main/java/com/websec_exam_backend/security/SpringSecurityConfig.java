@@ -39,12 +39,9 @@ public class SpringSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.xssProtection(xXssConfig -> xXssConfig.disable()))
                 .authorizeHttpRequests(authorize -> {
-                    // Allow all requests for testing - Comment out for production security
-                    authorize.anyRequest().permitAll();
-
-                    // Uncomment for production security:
-                    // authorize.requestMatchers("/auth/**").permitAll();
-                    // authorize.anyRequest().authenticated();
+//                   authorize.anyRequest().permitAll();
+                     authorize.requestMatchers("/auth/**").permitAll();
+                     authorize.anyRequest().authenticated();
                 })
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -32,7 +32,7 @@ INSERT INTO booking (flight_id, passenger_id, booking_number, seat_number, statu
                                                                                        (1, 2, 'BK002', '14B', 'Cancelled'),
                                                                                        (2, 3, 'BK003', '7C', 'Confirmed');
 
-INSERT INTO `roles` (id, role_name) VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
+INSERT INTO `roles` (id, role_name) VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER'),(3,'ROLE_NEWBIE');
 
 INSERT INTO `users` (id, password, username, employee_id, role_id) VALUES
                         (1,'$2a$12$VcTGnkiGTDuFrE/BT8mR4uUpmoKvO/yFWJzbqE.Wzu1J1jKkj3gBi','ramesh',UUID_TO_BIN('a197665b-5fa9-4bf7-8344-2cc303a15f09'),2),
@@ -62,13 +62,15 @@ INSERT INTO permission(id, permission_name) VALUES
                             (UUID_TO_BIN('066febe8-ecca-4887-9a62-58a313829844'), 'MANAGE_USERS');
 
 INSERT INTO roles_permissions (role_id, permission_id) VALUES
-                                (1, UUID_TO_BIN('de660928-ecf9-478c-acc6-59194ad49e83')), # CREATE_EXPORT
-                                (1, UUID_TO_BIN('4290c25a-27b1-4ca0-b1f9-e4ca6a4e1e8d')), # VIEW_EXPORTS
-                                (1, UUID_TO_BIN('cf820035-92e9-4611-80e3-72cc65c4b273')), # VIEW_NOTES
-                                (1, UUID_TO_BIN('e781626c-9c15-4bf8-8d9e-7e954e42c886')), # CREATE_NOTES
-                                (1, UUID_TO_BIN('685bd45a-1813-41de-a34c-46de32893bd9')), # UPLOAD_IMAGE
-                                (1, UUID_TO_BIN('066febe8-ecca-4887-9a62-58a313829844')), # MANAGE_USERS
-                                (2, UUID_TO_BIN('de660928-ecf9-478c-acc6-59194ad49e83')), # CREATE_EXPORT
-                                (2, UUID_TO_BIN('4290c25a-27b1-4ca0-b1f9-e4ca6a4e1e8d')), # VIEW_EXPORTS
-                                (2, UUID_TO_BIN('cf820035-92e9-4611-80e3-72cc65c4b273')), # VIEW_NOTES
-                                (2, UUID_TO_BIN('e781626c-9c15-4bf8-8d9e-7e954e42c886')); # CREATE_NOTES
+                                (1, UUID_TO_BIN('de660928-ecf9-478c-acc6-59194ad49e83')), -- CREATE_EXPORT
+                                (1, UUID_TO_BIN('4290c25a-27b1-4ca0-b1f9-e4ca6a4e1e8d')), -- VIEW_EXPORTS
+                                (1, UUID_TO_BIN('cf820035-92e9-4611-80e3-72cc65c4b273')), -- VIEW_NOTES
+                                (1, UUID_TO_BIN('e781626c-9c15-4bf8-8d9e-7e954e42c886')), -- CREATE_NOTES
+                                (1, UUID_TO_BIN('685bd45a-1813-41de-a34c-46de32893bd9')), -- UPLOAD_IMAGE
+                                (1, UUID_TO_BIN('066febe8-ecca-4887-9a62-58a313829844')), -- MANAGE_USERS
+                                (2, UUID_TO_BIN('de660928-ecf9-478c-acc6-59194ad49e83')), -- CREATE_EXPORT
+                                (2, UUID_TO_BIN('4290c25a-27b1-4ca0-b1f9-e4ca6a4e1e8d')), -- VIEW_EXPORTS
+                                (2, UUID_TO_BIN('cf820035-92e9-4611-80e3-72cc65c4b273')), -- VIEW_NOTES
+                                (2, UUID_TO_BIN('e781626c-9c15-4bf8-8d9e-7e954e42c886')), -- CREATE_NOTES
+                                (3, UUID_TO_BIN('4290c25a-27b1-4ca0-b1f9-e4ca6a4e1e8d')), -- VIEW_EXPORTS
+                                (3, UUID_TO_BIN('cf820035-92e9-4611-80e3-72cc65c4b273')); -- VIEW_NOTES
