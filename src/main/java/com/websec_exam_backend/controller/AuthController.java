@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -71,6 +72,7 @@ public class AuthController {
     }
 
     @GetMapping("/me/permissions")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'GUEST')")
     public ResponseEntity<AuthorizationDTO> getCurrentUserPermissions(HttpServletRequest request) {
         AuthorizationDTO authorizationDTO = authService.getCurrentUserPermissions(request);
         if(authorizationDTO == null) {

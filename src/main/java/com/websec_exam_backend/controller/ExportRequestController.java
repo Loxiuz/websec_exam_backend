@@ -37,7 +37,7 @@ public class ExportRequestController {
     }
 
     @GetMapping("/all-requests")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'GUEST')")
     public ResponseEntity<ExportRequestDTO[]> getAllExportRequests() {
         ExportRequestDTO[] exportRequests = exportRequestService.getAllExportRequests();
         if (exportRequests != null && exportRequests.length > 0) {
@@ -48,7 +48,7 @@ public class ExportRequestController {
     }
 
     @GetMapping("/notes/all")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'GUEST')")
     public ResponseEntity<ExportNotesDTO[]> getAllExportRequestNotes() {
         ExportNotesDTO[] notes = exportRequestService.getAllExportNotes();
         if (notes != null && notes.length > 0) {
@@ -59,7 +59,7 @@ public class ExportRequestController {
     }
 
     @GetMapping("/{exportRequestId}/notes")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'GUEST')")
     public ResponseEntity<ExportNotesDTO[]> getAllExportNotesFromRequestId(@PathVariable UUID exportRequestId) {
         ExportNotesDTO[] notes = exportRequestService.getAllExportNotesFromRequestId(exportRequestId);
         if (notes != null && notes.length > 0) {

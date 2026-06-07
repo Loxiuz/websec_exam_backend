@@ -21,7 +21,7 @@ import java.util.List;
 
 @Configuration
 @AllArgsConstructor
-@EnableMethodSecurity(prePostEnabled = false) // Disable @PreAuthorize/@PostAuthorize for testing
+@EnableMethodSecurity
 public class SpringSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;

@@ -98,7 +98,7 @@ public class AuthService {
         User user = new User();
         user.setUsername(loginDto.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(loginDto.getPassword()));
-        user.setRole(roleRepository.findRoleByRoleName("ROLE_NEWBIE"));
+        user.setRole(roleRepository.findRoleByRoleName("ROLE_GUEST"));
 
         return userRepository.save(user).getId() != null;
 
