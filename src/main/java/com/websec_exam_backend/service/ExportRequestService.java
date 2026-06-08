@@ -5,10 +5,16 @@ import com.websec_exam_backend.dto.ExportRequestDTO;
 import com.websec_exam_backend.model.Employee;
 import com.websec_exam_backend.model.ExportNotes;
 import com.websec_exam_backend.model.ExportRequest;
+import com.websec_exam_backend.model.User;
 import com.websec_exam_backend.repository.ExportNotesRepository;
 import com.websec_exam_backend.repository.ExportRequestRepository;
+import com.websec_exam_backend.repository.UserRepository;
+import com.websec_exam_backend.security.JwtAuthenticationFilter;
+import com.websec_exam_backend.security.JwtTokenProvider;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -16,15 +22,21 @@ public class ExportRequestService {
 
     private final ExportRequestRepository exportRequestRepository;
     private final ExportNotesRepository exportNotesRepository;
+    private final UserRepository userRepository;
     private final ExportService exportService;
     private final EmployeeService employeeService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
-    public ExportRequestService(ExportRequestRepository exportRequestRepository, ExportNotesRepository exportNotesRepository, ExportService exportService, EmployeeService employeeService) {
+    public ExportRequestService(ExportRequestRepository exportRequestRepository, ExportNotesRepository exportNotesRepository, UserRepository userRepository, ExportService exportService, EmployeeService employeeService, JwtTokenProvider jwtTokenProvider, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.exportRequestRepository = exportRequestRepository;
         this.exportNotesRepository = exportNotesRepository;
+        this.userRepository = userRepository;
         this.exportService = exportService;
         this.employeeService = employeeService;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     public ExportRequestDTO[] getAllExportRequests() {
@@ -33,17 +45,51 @@ public class ExportRequestService {
                 .toArray(ExportRequestDTO[]::new);
     }
 
-    public ExportNotesDTO[] getAllExportNotes() {
-        return  exportNotesRepository.findAll().stream()
-                .map(this::toDTO)
-                .toArray(ExportNotesDTO[]::new);
+    public ExportNotesDTO[] getAllExportNotes(HttpServletRequest request) {
+        String token = jwtAuthenticationFilter.getTokenFromRequest(request);
+        User user = userRepository.findByUsername(jwtTokenProvider.getUsername(token))
+                .orElseThrow(() -> new IllegalArgumentException("User from token not found"));
+        if(Objects.equals(user.getRole().getRoleName(), "ROLE_ADMIN")){
+            return exportNotesRepository.findAll().stream()
+                    .map(this::toDTO)
+                    .toArray(ExportNotesDTO[]::new);
+        } else {
+            return exportNotesRepository.findAll().stream()
+                    .filter(note -> {
+                        if(user.getEmployee() != null) {
+                           return !note.getIsHidden() || note.getEmployee().getId().equals(user.getEmployee().getId());
+                        }
+                        return !note.getIsHidden();
+                    })
+                    .map(this::toDTO)
+                    .toArray(ExportNotesDTO[]::new);
+        }
     }
 
-    public ExportNotesDTO[] getAllExportNotesFromRequestId(UUID exportRequestId) {
-        return exportNotesRepository.findAll().stream()
-                .filter(note -> note.getExportRequest().getId().equals(exportRequestId))
-                .map(this::toDTO)
-                .toArray(ExportNotesDTO[]::new);
+    public ExportNotesDTO[] getAllExportNotesFromRequestId(UUID exportRequestId, HttpServletRequest request) {
+        String token = jwtAuthenticationFilter.getTokenFromRequest(request);
+        if (token == null || !jwtTokenProvider.validateToken(token)) {
+            request.setAttribute("error", "Invalid Token");
+        }
+        User user = userRepository.findByUsername(jwtTokenProvider.getUsername(token))
+                .orElseThrow(() -> new IllegalArgumentException("User from token not found"));
+        if(Objects.equals(user.getRole().getRoleName(), "ROLE_ADMIN")){
+            return exportNotesRepository.findAll().stream()
+                    .filter(note -> note.getExportRequest().getId().equals(exportRequestId))
+                    .map(this::toDTO)
+                    .toArray(ExportNotesDTO[]::new);
+        } else {
+            return exportNotesRepository.findAll().stream()
+                    .filter(note -> note.getExportRequest().getId().equals(exportRequestId))
+                    .filter(note -> {
+                        if(user.getEmployee() != null) {
+                            return !note.getIsHidden() || note.getEmployee().getId().equals(user.getEmployee().getId());
+                        }
+                        return !note.getIsHidden();
+                    })
+                    .map(this::toDTO)
+                    .toArray(ExportNotesDTO[]::new);
+        }
     }
 
     public byte[] handleExportRequest(ExportRequestDTO exportRequestDTO) {
@@ -77,8 +123,19 @@ public class ExportRequestService {
     public UUID createExportRequestNotes(ExportNotesDTO exportNotesDTO) {
         ExportNotes notes = fromDTO(exportNotesDTO);
         notes.setId(UUID.randomUUID());
+        notes.setIsHidden(false);
         exportNotesRepository.save(notes);
         return notes.getId();
+    }
+
+    public Boolean setNoteHidden(UUID exportNoteId, boolean hidden) {
+        ExportNotes note = exportNotesRepository.findById(exportNoteId);
+        if(note == null) {
+            return false;
+        }
+        note.setIsHidden(hidden);
+        exportNotesRepository.save(note);
+        return true;
     }
 
     private ExportRequest fromDTO(ExportRequestDTO exportRequestDTO) {

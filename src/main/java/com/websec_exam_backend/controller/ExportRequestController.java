@@ -1,7 +1,9 @@
 package com.websec_exam_backend.controller;
 import com.websec_exam_backend.dto.ExportNotesDTO;
 import com.websec_exam_backend.dto.ExportRequestDTO;
+import com.websec_exam_backend.dto.SetExportNoteHiddenDTO;
 import com.websec_exam_backend.service.ExportRequestService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -49,8 +51,8 @@ public class ExportRequestController {
 
     @GetMapping("/notes/all")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'GUEST')")
-    public ResponseEntity<ExportNotesDTO[]> getAllExportRequestNotes() {
-        ExportNotesDTO[] notes = exportRequestService.getAllExportNotes();
+    public ResponseEntity<ExportNotesDTO[]> getAllExportNotes(HttpServletRequest request) {
+        ExportNotesDTO[] notes = exportRequestService.getAllExportNotes(request);
         if (notes != null && notes.length > 0) {
             return new ResponseEntity<>(notes, HttpStatus.OK);
         } else {
@@ -60,8 +62,8 @@ public class ExportRequestController {
 
     @GetMapping("/{exportRequestId}/notes")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'GUEST')")
-    public ResponseEntity<ExportNotesDTO[]> getAllExportNotesFromRequestId(@PathVariable UUID exportRequestId) {
-        ExportNotesDTO[] notes = exportRequestService.getAllExportNotesFromRequestId(exportRequestId);
+    public ResponseEntity<ExportNotesDTO[]> getAllExportNotesFromRequestId(@PathVariable UUID exportRequestId, HttpServletRequest request) {
+        ExportNotesDTO[] notes = exportRequestService.getAllExportNotesFromRequestId(exportRequestId, request);
         if (notes != null && notes.length > 0) {
             return new ResponseEntity<>(notes, HttpStatus.OK);
         } else {
@@ -75,6 +77,17 @@ public class ExportRequestController {
         UUID createdNotesId = exportRequestService.createExportRequestNotes(exportNotesDTO);
         if (createdNotesId != null) {
             return new ResponseEntity<>(createdNotesId, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PatchMapping("/notes/{exportNotesId}/hidden")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<Void> setExportNotesHidden(@PathVariable UUID exportNotesId, @RequestBody SetExportNoteHiddenDTO hiddenDto) {
+
+        if(exportRequestService.setNoteHidden(exportNotesId, hiddenDto.isHidden())) {
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

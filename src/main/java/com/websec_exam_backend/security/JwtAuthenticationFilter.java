@@ -60,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-     String getTokenFromRequest(HttpServletRequest request){
+     public String getTokenFromRequest(HttpServletRequest request){
         String token = null;
          if (request.getCookies() != null) {
              for (Cookie cookie : request.getCookies()) {
