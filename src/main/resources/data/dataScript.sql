@@ -156,24 +156,22 @@ INSERT INTO `roles` (id, role_name) VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER'),(3,'
 
 INSERT INTO `users` (id, password, username, employee_id, role_id) VALUES
                         (1,'$2a$12$UjaMRw0tknm8BeXbD8MVp.g42jcWFKYy3L0dQdds3BIf4zlnR2Dvm','admin',UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 1),
-                        (2, '$2a$10$c5sFL9MazveNcJZr2o9Kgu5Y15.bsEqIKeMZoizENJqWZ/hMTfBd6', 'freja', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (3, '$2a$10$/m2nbAxuRRpJg7KmnD.C9uTluItaYXitxhV8ifDAUtdntFySempbG', 'kasper', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (4, '$2a$10$dtzZfcfdYJn/EViDXlexmeThrPkUA831QY3wqjm7C0eRwtsAaGYCK', 'emil', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (5, '$2a$10$IqXGFRTTQTy/W/QDGJ3L7ur4Ndxb1g//k6Xa.XrJb4/5E0PsfglRy', 'ida', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (6, '$2a$10$wui.9DLIzJQZcauEtxdN5eMrqBUDGQOEGjH9DESQwoM0uf6s5a9NC', 'sofia', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (7, '$2a$10$.E8rgx.XOamGBbaRmzo2I.pU4lJelc/N9rGfOvnHBRsNN9ewvbxNK', 'viktor', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (8, '$2a$10$7q0XthsQcqH8wpj08XuYHeA3uPj0oJKmgN/HiH0I7kvj5NMicgTVm', 'ramesh', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (9, '$2a$10$9nIPLpdCFPgVw66pVgzgEuUjlz8fhZeCVO8MTt9AITAz7d/gRsami', 'laura', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (10, '$2a$10$iHVuOsR4mET10q3daHbjbe/5cuAKUemrjk.T.E/Lvn9basp9QJPjS', 'eva', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (11, '$2a$10$0shQft2wy4r7sRVjPoMGoOXM1ZB9NAKYaABowlnvLbskHIKx0hSFy', 'jonas', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (12, '$2a$10$uWpLgAf63Ci3ui.hhE77POLlLETzNrWYcVziLJK6NGzh/IOJxHPky', 'simon', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (13, '$2a$10$VuaUozMZZvsd3Q9j.APkieD5Ii5PkS5nK84NsFthzamIpIA90y2rW', 'william', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (14, '$2a$10$RUHizWEsufY9plqtXAOa9.E4NoJtuAMmNpElHpetiH9h7iaY06fse', 'nanna', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (15, '$2a$10$WguuAcZmz4.HdvB7hwfAOeTxNsP8UUKSDJ8Vp3OyoIXQeFbRcimTa', 'mathilde', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (16, '$2a$10$1sRCVqcMksi.D7Og7.NcN.J093AjFI.mauzQuq0bpNDot89fXw3Ei', 'oliver', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (17, '$2a$10$rDWYldYicWpjFAz1hM3ySe.CYe/p7viYNdBj0FFxqFEIjvbb7QVmK', 'liam', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (18, '$2a$10$wJFtxOV9x8ZshjPHwzJHSeMVUXhQM1dfWpFgLxurSD/WHEnQT5ChW', 'noah', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),
-                        (19, '$2a$10$D2nXCmXcCUCxZT.TF/Xq9.RlhmlafyjKrPxP6F90w68DGQfTKaSyy', 'aline', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2);
+                        (2, '$2a$10$c5sFL9MazveNcJZr2o9Kgu5Y15.bsEqIKeMZoizENJqWZ/hMTfBd6', 'freja', UUID_TO_BIN('c8ac9a5e-3ebd-4a8f-a845-9c0f5f41f606'), 2),
+                        (3, '$2a$10$/m2nbAxuRRpJg7KmnD.C9uTluItaYXitxhV8ifDAUtdntFySempbG', 'kasper', UUID_TO_BIN('1a2b3c4d-5e6f-4703-8a9b-0c1d2e3f4003'), 2),
+                        (4, '$2a$10$dtzZfcfdYJn/EViDXlexmeThrPkUA831QY3wqjm7C0eRwtsAaGYCK', 'emil', UUID_TO_BIN('1a2b3c4d-5e6f-4701-8a9b-0c1d2e3f4001'), 2),
+                        (5, '$2a$10$IqXGFRTTQTy/W/QDGJ3L7ur4Ndxb1g//k6Xa.XrJb4/5E0PsfglRy', 'ida', UUID_TO_BIN('2b3ee6a2-6f97-4981-8f4a-e9025b0ae707'), 2),
+                        (6, '$2a$10$wui.9DLIzJQZcauEtxdN5eMrqBUDGQOEGjH9DESQwoM0uf6s5a9NC', 'sofia', UUID_TO_BIN('3f1c4d70-0c22-4d5d-9f8d-cad3d1b8e101'), 2),
+                        (7, '$2a$10$.E8rgx.XOamGBbaRmzo2I.pU4lJelc/N9rGfOvnHBRsNN9ewvbxNK', 'viktor', UUID_TO_BIN('1a2b3c4d-5e6f-4707-8a9b-0c1d2e3f4007'), 2),
+                        (9, '$2a$10$9nIPLpdCFPgVw66pVgzgEuUjlz8fhZeCVO8MTt9AITAz7d/gRsami', 'laura', UUID_TO_BIN('1a2b3c4d-5e6f-4708-8a9b-0c1d2e3f4008'), 2),
+                        (10, '$2a$10$iHVuOsR4mET10q3daHbjbe/5cuAKUemrjk.T.E/Lvn9basp9QJPjS', 'eva', UUID_TO_BIN('d4b9d4a7-7b11-4ac7-a2f4-7ee38ad9c303'), 2),
+                        (11, '$2a$10$0shQft2wy4r7sRVjPoMGoOXM1ZB9NAKYaABowlnvLbskHIKx0hSFy', 'jonas', UUID_TO_BIN('1a2b3c4d-5e6f-4705-8a9b-0c1d2e3f4005'), 2),
+                        (12, '$2a$10$uWpLgAf63Ci3ui.hhE77POLlLETzNrWYcVziLJK6NGzh/IOJxHPky', 'simon', UUID_TO_BIN('1a2b3c4d-5e6f-4709-8a9b-0c1d2e3f4009'), 2),
+                        (13, '$2a$10$VuaUozMZZvsd3Q9j.APkieD5Ii5PkS5nK84NsFthzamIpIA90y2rW', 'william', UUID_TO_BIN('7e518f73-2a4d-4e30-9d5f-1bc838dcf808'), 2),
+                        (15, '$2a$10$WguuAcZmz4.HdvB7hwfAOeTxNsP8UUKSDJ8Vp3OyoIXQeFbRcimTa', 'mathilde', UUID_TO_BIN('1a2b3c4d-5e6f-4706-8a9b-0c1d2e3f4006'), 2),
+                        (16, '$2a$10$1sRCVqcMksi.D7Og7.NcN.J093AjFI.mauzQuq0bpNDot89fXw3Ei', 'oliver', UUID_TO_BIN('b6f13ab0-9d6f-4ad9-b01c-3f7f90f9e505'), 2),
+                        (17, '$2a$10$rDWYldYicWpjFAz1hM3ySe.CYe/p7viYNdBj0FFxqFEIjvbb7QVmK', 'liam', UUID_TO_BIN('9a35f0de-c2d2-4fd0-a9a2-8d00f9b8c202'), 2),
+                        (18, '$2a$10$wJFtxOV9x8ZshjPHwzJHSeMVUXhQM1dfWpFgLxurSD/WHEnQT5ChW', 'noah', UUID_TO_BIN('5f10d8fe-80e8-4ce8-98cf-1d8f3f17d404'), 2),
+                        (19, '$2a$10$D2nXCmXcCUCxZT.TF/Xq9.RlhmlafyjKrPxP6F90w68DGQfTKaSyy', 'aline', UUID_TO_BIN('1a2b3c4d-5e6f-4704-8a9b-0c1d2e3f4004'), 2);
 
 
     INSERT INTO export_request (export_creation, employee_id, id, export_format, file_name, selected_entities, status, applied_filters_json) VALUES
@@ -196,7 +194,9 @@ INSERT INTO `users` (id, password, username, employee_id, role_id) VALUES
                             (DATE('2025-08-28'),UUID_TO_BIN('1a2b3c4d-5e6f-4707-8a9b-0c1d2e3f4007'),UUID_TO_BIN('e7777777-7777-4777-8777-777777777777'),'csv','exported_route_data.csv','flight, airport','COMPLETED','[{"flight":{"field":"flight_number","value":"9"}}]'),
                             (DATE('2025-08-29'),UUID_TO_BIN('1a2b3c4d-5e6f-4708-8a9b-0c1d2e3f4008'),UUID_TO_BIN('e8888888-8888-4888-8888-888888888888'),'json','exported_compliance_data.json','users, roles','FAILED','[{"users":{"field":"role_id","value":"2"}}]'),
                             (DATE('2025-08-30'),UUID_TO_BIN('1a2b3c4d-5e6f-4709-8a9b-0c1d2e3f4009'),UUID_TO_BIN('e9999999-9999-4999-8999-999999999999'),'csv','exported_ops_data.csv','crew_member_assignment','COMPLETED','[{"crew_member_assignment":{"field":"role","value":"Pilot"}}]'),
-                            (DATE('2025-08-31'),UUID_TO_BIN('1a2b3c4d-5e6f-4710-8a9b-0c1d2e3f4010'),UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000000'),'csv','exported_weekly_digest.csv','export_request, export_notes','COMPLETED','[{"export_notes":{"field":"is_hidden","value":"false"}}]');
+                            (DATE('2025-08-31'),UUID_TO_BIN('1a2b3c4d-5e6f-4710-8a9b-0c1d2e3f4010'),UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000000'),'csv','exported_weekly_digest.csv','export_request, export_notes','COMPLETED','[{"export_notes":{"field":"is_hidden","value":"false"}}]'),
+                            (DATE('2025-08-31'),UUID_TO_BIN('1a2b3c4d-5e6f-4710-8a9b-0c1d2e3f4010'),UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000012'),'csv','exported_weekly_digest.csv','export_request, export_notes','COMPLETED','[{"export_notes":{"field":"is_hidden","value":"false"}}]');
+
 
 INSERT INTO export_notes (employee_id, export_request_id, id, notes, creation_date, is_hidden) VALUES
                             (UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), UUID_TO_BIN('c901c2e9-1fc3-450f-a608-7044f95f37e3'), UUID_TO_BIN('53f62481-68dc-4fc1-858e-a48e31f39d10'), 'There are some missing values in the flight data export, please check the source data for completeness.', DATE('2025-08-13 20:00:00'), true),

@@ -45,6 +45,13 @@ public class ExportRequestService {
                 .toArray(ExportRequestDTO[]::new);
     }
 
+    public ExportRequestDTO[] getAllExportRequestsByEmployeeId(UUID employeeId) {
+        return exportRequestRepository.findAll().stream()
+                .filter(request -> request.getEmployee().getId().equals(employeeId))
+                .map(this::toDTO)
+                .toArray(ExportRequestDTO[]::new);
+    }
+
     public ExportNotesDTO[] getAllExportNotes(HttpServletRequest request) {
         String token = jwtAuthenticationFilter.getTokenFromRequest(request);
         User user = userRepository.findByUsername(jwtTokenProvider.getUsername(token))
@@ -87,28 +94,6 @@ public class ExportRequestService {
                         }
                         return !note.getIsHidden();
                     })
-                    .map(this::toDTO)
-                    .toArray(ExportNotesDTO[]::new);
-        }
-    }
-
-    public ExportNotesDTO[] getExportNotesFromEmployeeId(UUID employeeId, HttpServletRequest request) {
-        String token = jwtAuthenticationFilter.getTokenFromRequest(request);
-        if (token == null || !jwtTokenProvider.validateToken(token)) {
-            request.setAttribute("error", "Invalid Token");
-        }
-        if(employeeId == null) request.setAttribute("error", "EmployeeId cannot be null");
-        User user = userRepository.findByUsername(jwtTokenProvider.getUsername(token))
-                .orElseThrow(() -> new IllegalArgumentException("User from token not found"));
-        if(Objects.equals(user.getRole().getRoleName(), "ROLE_ADMIN") || (user.getEmployee() != null && user.getEmployee().getId().equals(employeeId))){
-            return exportNotesRepository.findAll().stream()
-                    .filter(note -> note.getEmployee().getId().equals(employeeId))
-                    .map(this::toDTO)
-                    .toArray(ExportNotesDTO[]::new);
-        } else {
-            return exportNotesRepository.findAll().stream()
-                    .filter(note -> note.getEmployee().getId().equals(employeeId))
-                    .filter(note -> !note.getIsHidden())
                     .map(this::toDTO)
                     .toArray(ExportNotesDTO[]::new);
         }
