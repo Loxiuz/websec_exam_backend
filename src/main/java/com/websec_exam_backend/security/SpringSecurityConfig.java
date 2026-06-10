@@ -39,7 +39,6 @@ public class SpringSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.xssProtection(xXssConfig -> xXssConfig.disable()))
                 .authorizeHttpRequests(authorize -> {
-//                   authorize.anyRequest().permitAll();
                      authorize.requestMatchers("/auth/**").permitAll();
                      authorize.anyRequest().authenticated();
                 })

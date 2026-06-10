@@ -84,7 +84,7 @@ public class AuthService {
             throw new UsernameNotFoundException("No permissions found for role " + user.getRole().getRoleName());
         }
 
-        return new AuthorizationDTO(user.getRole().getRoleName(), permissions.stream().map(Permission::getPermissionName).toList());
+        return new AuthorizationDTO(user.getRole().getRoleName(), username,user.getEmployee() == null ? null : user.getEmployee().getId(), permissions.stream().map(Permission::getPermissionName).toList());
     }
 
     public Boolean register(LoginDTO loginDto) {

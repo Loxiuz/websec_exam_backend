@@ -71,6 +71,17 @@ public class ExportRequestController {
         }
     }
 
+    @GetMapping("/notes/all/{employeeId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'GUEST')")
+    public ResponseEntity<ExportNotesDTO[]> getExportNotesFromEmployeeId(@PathVariable UUID employeeId, HttpServletRequest request) {
+        ExportNotesDTO[] notes = exportRequestService.getExportNotesFromEmployeeId(employeeId, request);
+        if (notes != null && notes.length > 0) {
+            return new ResponseEntity<>(notes, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/notes/create")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<UUID> createExportNotes(@RequestBody ExportNotesDTO exportNotesDTO) {
