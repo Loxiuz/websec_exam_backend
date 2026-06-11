@@ -35,15 +35,20 @@ public class SpringSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // CORS rules are enforced here before request authorization runs.
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // JWT is used, so server-side sessions/CSRF state are intentionally disabled.
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.xssProtection(xXssConfig -> xXssConfig.disable()))
                 .authorizeHttpRequests(authorize -> {
+                     // Auth endpoints stay public; all other endpoints require authentication.
                      authorize.requestMatchers("/auth/**").permitAll();
                      authorize.anyRequest().authenticated();
                 })
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                // Stateless API: every request must carry valid authentication (JWT cookie).
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Ensures JWT auth runs before Spring's username/password authentication filter.
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -52,8 +57,9 @@ public class SpringSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
+        // Open CORS for development/exam setup.
         config.setAllowedOrigins(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "PATCH",  "DELETE", "PUT"));
         config.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

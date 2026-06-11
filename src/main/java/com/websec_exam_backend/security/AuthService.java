@@ -44,6 +44,7 @@ public class AuthService {
     }
 
     public String login(LoginDTO loginDto) {
+        // Delegates credential verification to Spring Security's authentication pipeline.
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(), loginDto.getPassword()));
 
@@ -75,6 +76,7 @@ public class AuthService {
             request.setAttribute("error", "Invalid Token");
         }
 
+        // Identity comes from the signed JWT; role permissions are then loaded from database.
         String username = jwtTokenProvider.getUsername(token);
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));

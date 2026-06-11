@@ -38,6 +38,7 @@ public class PasswordGenerator {
     }
 
     String printPasswordWithUsername(String username, String password, int i) {
+        // Helper output for SQL seed creation; not used by the authentication runtime.
         return "(" + (i) + ", '" + new BCryptPasswordEncoder().encode(password) + "', '" + username + "', UUID_TO_BIN('62d7d583-9809-4a1a-a803-a44e3156595b'), 2),";
     }
 }

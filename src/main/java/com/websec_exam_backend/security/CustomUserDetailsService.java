@@ -28,6 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username does not exist"));
 
+        // Both fine-grained permissions and role name are added as authorities for access checks.
         Set<GrantedAuthority> authorities = user.getRole().getPermissions().stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermissionName()))
                 .collect(Collectors.toSet());

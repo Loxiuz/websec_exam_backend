@@ -40,6 +40,7 @@ public class JwtTokenProvider {
     }
 
     private Key key(){
+        // Secret is stored as Base64 and converted to HMAC key for signing/verification.
         return Keys.hmacShaKeyFor(
                 Decoders.BASE64.decode(jwtSecret)
         );
@@ -58,6 +59,7 @@ public class JwtTokenProvider {
     // validate Jwt token
     public boolean validateToken(String token){
         try{
+            // Parsing verifies signature integrity and standard JWT constraints.
             Jwts.parserBuilder()
                     .setSigningKey(key())
                     .build()

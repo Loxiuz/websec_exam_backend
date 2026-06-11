@@ -53,6 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
+            // This marks the request as authenticated for @PreAuthorize and other security checks.
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         }
@@ -63,6 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      public String getTokenFromRequest(HttpServletRequest request){
         String token = null;
          if (request.getCookies() != null) {
+             // Access token is expected as HttpOnly cookie named accessToken.
              for (Cookie cookie : request.getCookies()) {
                  if ("accessToken".equals(cookie.getName())) {
                      token = cookie.getValue();
@@ -72,6 +74,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
          }
 
          if (token == null || !jwtTokenProvider.validateToken(token)) {
+             // Controllers/services can inspect this attribute for diagnostics.
              request.setAttribute("error", "Invalid Token");
          }
 
