@@ -71,10 +71,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
              }
          }
 
+         if (token == null || !jwtTokenProvider.validateToken(token)) {
+             request.setAttribute("error", "Invalid Token");
+         }
+
         if(StringUtils.hasText(token)){
+
             return token;
         }
-
         return null;
     }
 }

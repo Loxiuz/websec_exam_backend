@@ -1,7 +1,7 @@
 package com.websec_exam_backend.controller;
 import com.websec_exam_backend.dto.ExportNotesDTO;
 import com.websec_exam_backend.dto.ExportRequestDTO;
-import com.websec_exam_backend.dto.SetExportNoteHiddenDTO;
+import com.websec_exam_backend.dto.ExportNoteHiddenDTO;
 import com.websec_exam_backend.service.ExportRequestService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.*;
@@ -95,10 +95,20 @@ public class ExportRequestController {
 
     @PatchMapping("/notes/{exportNotesId}/hidden")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<Void> setExportNotesHidden(@PathVariable UUID exportNotesId, @RequestBody SetExportNoteHiddenDTO hiddenDto) {
-
-        if(exportRequestService.setNoteHidden(exportNotesId, hiddenDto.isHidden())) {
+    public ResponseEntity<Void> setExportNotesHidden(@PathVariable UUID exportNotesId, @RequestBody ExportNoteHiddenDTO hiddenDto, HttpServletRequest request) {
+        if(exportRequestService.setNoteHidden(exportNotesId, hiddenDto.isHidden(), request)) {
             return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("notes/{exportNotesId}/is-hidden")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<ExportNoteHiddenDTO> isExportNotesHidden(@PathVariable UUID exportNotesId, HttpServletRequest request) {
+        ExportNoteHiddenDTO hiddenDTO = exportRequestService.isNoteHidden(exportNotesId, request);
+        if (hiddenDTO != null) {
+            return new ResponseEntity<>(hiddenDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

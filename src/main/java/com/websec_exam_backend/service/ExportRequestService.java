@@ -1,5 +1,6 @@
 package com.websec_exam_backend.service;
 
+import com.websec_exam_backend.dto.ExportNoteHiddenDTO;
 import com.websec_exam_backend.dto.ExportNotesDTO;
 import com.websec_exam_backend.dto.ExportRequestDTO;
 import com.websec_exam_backend.model.Employee;
@@ -99,6 +100,30 @@ public class ExportRequestService {
         }
     }
 
+    public ExportNoteHiddenDTO isNoteHidden(UUID exportNotesId, HttpServletRequest request) {
+        String token = jwtAuthenticationFilter.getTokenFromRequest(request);
+        User user = userRepository.findByUsername(jwtTokenProvider.getUsername(token))
+                .orElseThrow(() -> new IllegalArgumentException("User from token not found"));
+        ExportNotes note = exportNotesRepository.findById(exportNotesId);
+        if (note == null) {
+            throw new IllegalArgumentException("ExportNote with given ID not found");
+        }
+        if (user.getEmployee() != null && note.getEmployee() != null) {
+            if (user.getEmployee().getId().equals(note.getEmployee().getId()) ||
+                    user.getRole().getRoleName().equals("ROLE_ADMIN")) {
+                return new ExportNoteHiddenDTO(note.getIsHidden());
+            } else {
+                throw new IllegalArgumentException("User does not have permission to view this note");
+            }
+        } else {
+            if (note.getEmployee() == null) {
+                return new ExportNoteHiddenDTO(note.getIsHidden());
+            } else {
+                throw new IllegalArgumentException("User does not have permission to view this note");
+            }
+        }
+    }
+
     public byte[] handleExportRequest(ExportRequestDTO exportRequestDTO) {
         ExportRequest exportRequestFromDto = fromDTO(exportRequestDTO);
         exportRequestFromDto.setStatus("PENDING"); // Overvej om det skal være enum
@@ -135,14 +160,23 @@ public class ExportRequestService {
         return notes.getId();
     }
 
-    public Boolean setNoteHidden(UUID exportNoteId, boolean hidden) {
+    public Boolean setNoteHidden(UUID exportNoteId, boolean hidden, HttpServletRequest request) {
+        String token = jwtAuthenticationFilter.getTokenFromRequest(request);
+        User user = userRepository.findByUsername(jwtTokenProvider.getUsername(token))
+                .orElseThrow(() -> new IllegalArgumentException("User from token not found"));
         ExportNotes note = exportNotesRepository.findById(exportNoteId);
         if(note == null) {
             return false;
         }
-        note.setIsHidden(hidden);
-        exportNotesRepository.save(note);
-        return true;
+        if(user.getEmployee().getId().equals(note.getEmployee().getId()) ||
+                user.getRole().getRoleName().equals("ROLE_ADMIN")) {
+            note.setIsHidden(hidden);
+            exportNotesRepository.save(note);
+            return true;
+        }
+
+
+        return false;
     }
 
     private ExportRequest fromDTO(ExportRequestDTO exportRequestDTO) {
