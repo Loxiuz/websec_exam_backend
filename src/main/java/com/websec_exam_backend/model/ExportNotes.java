@@ -1,6 +1,5 @@
 package com.websec_exam_backend.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -26,6 +25,5 @@ public class ExportNotes {
     private String notes;
     @CreationTimestamp
     private LocalDateTime creationDate;
-    @Column()
     private Boolean isHidden;
 }
