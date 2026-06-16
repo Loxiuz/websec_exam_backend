@@ -45,9 +45,7 @@ public class SpringSecurityConfig {
                         .xssProtection(xss -> xss
                                 .headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
                         )
-                        .contentSecurityPolicy(csp -> csp
-                                .policyDirectives("default-src 'self'; script-src 'self'; style-src 'self'")
-                        )
+                        // CSP handled by nginx
                 )
                 .authorizeHttpRequests(authorize -> {
                      // Auth endpoints stay public; all other endpoints require authentication.
@@ -69,9 +67,11 @@ public class SpringSecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         // Open CORS for development/exam setup.
-        config.setAllowedOrigins(List.of("*"));
+        config.setAllowedOrigins(List.of("https://localhost"));
         config.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "PATCH",  "DELETE", "PUT"));
         config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

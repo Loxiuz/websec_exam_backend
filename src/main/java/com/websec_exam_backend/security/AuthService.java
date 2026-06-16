@@ -3,7 +3,6 @@ package com.websec_exam_backend.security;
 import com.websec_exam_backend.dto.AuthorizationDTO;
 import com.websec_exam_backend.dto.LoginDTO;
 import com.websec_exam_backend.model.Permission;
-import com.websec_exam_backend.model.Role;
 import com.websec_exam_backend.model.User;
 import com.websec_exam_backend.repository.RoleRepository;
 import com.websec_exam_backend.repository.UserRepository;
@@ -54,8 +53,6 @@ public class AuthService {
 
         userRepository.findByUsername(jwtTokenProvider.getUsername(jwt))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        //TODO: Also check password and throw correct exception if not done already automatically by authenticationManager
 
         return jwt;
     }
