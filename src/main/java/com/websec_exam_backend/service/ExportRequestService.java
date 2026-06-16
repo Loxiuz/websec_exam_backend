@@ -14,6 +14,7 @@ import com.websec_exam_backend.security.JwtAuthenticationFilter;
 import com.websec_exam_backend.security.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -223,7 +224,8 @@ public class ExportRequestService {
         );
 
         exportNotes.setExportRequest(exportRequest);
-        exportNotes.setNotes(exportNotesDTO.notes());
+        // Escape note content on write to reduce stored XSS risk in downstream clients.
+        exportNotes.setNotes(HtmlUtils.htmlEscape(exportNotesDTO.notes().trim()));
 
         return exportNotes;
     }

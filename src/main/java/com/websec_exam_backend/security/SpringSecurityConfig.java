@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -37,9 +38,16 @@ public class SpringSecurityConfig {
         http
                 // CORS rules are enforced here before request authorization runs.
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // JWT is used, so server-side sessions/CSRF state are intentionally disabled.
+
                 .csrf(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers.xssProtection(xXssConfig -> xXssConfig.disable()))
+                .headers(headers -> headers
+                        .xssProtection(xss -> xss
+                                .headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
+                        )
+                        .contentSecurityPolicy(csp -> csp
+                                .policyDirectives("default-src 'self'; script-src 'self'; style-src 'self'")
+                        )
+                )
                 .authorizeHttpRequests(authorize -> {
                      // Auth endpoints stay public; all other endpoints require authentication.
                      authorize.requestMatchers("/auth/**").permitAll();

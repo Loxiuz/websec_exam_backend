@@ -4,6 +4,7 @@ import com.websec_exam_backend.dto.ExportRequestDTO;
 import com.websec_exam_backend.dto.ExportNoteHiddenDTO;
 import com.websec_exam_backend.service.ExportRequestService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class ExportRequestController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<byte[]> exportDataFromEntities(@RequestBody ExportRequestDTO exportRequestDTO){
+    public ResponseEntity<byte[]> exportDataFromEntities(@Valid @RequestBody ExportRequestDTO exportRequestDTO){
         byte[] fileBytes = exportRequestService.handleExportRequest(exportRequestDTO);
 
         HttpHeaders headers = new HttpHeaders();
@@ -84,7 +85,7 @@ public class ExportRequestController {
 
     @PostMapping("/notes/create")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<UUID> createExportNotes(@RequestBody ExportNotesDTO exportNotesDTO) {
+    public ResponseEntity<UUID> createExportNotes(@Valid @RequestBody ExportNotesDTO exportNotesDTO) {
         UUID createdNotesId = exportRequestService.createExportRequestNotes(exportNotesDTO);
         if (createdNotesId != null) {
             return new ResponseEntity<>(createdNotesId, HttpStatus.CREATED);
@@ -95,7 +96,7 @@ public class ExportRequestController {
 
     @PatchMapping("/notes/{exportNotesId}/hidden")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<Void> setExportNotesHidden(@PathVariable UUID exportNotesId, @RequestBody ExportNoteHiddenDTO hiddenDto, HttpServletRequest request) {
+    public ResponseEntity<Void> setExportNotesHidden(@PathVariable UUID exportNotesId, @Valid @RequestBody ExportNoteHiddenDTO hiddenDto, HttpServletRequest request) {
         if(exportRequestService.setNoteHidden(exportNotesId, hiddenDto.isHidden(), request)) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

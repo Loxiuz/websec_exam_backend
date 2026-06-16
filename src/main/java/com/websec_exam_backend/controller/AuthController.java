@@ -6,6 +6,7 @@ import com.websec_exam_backend.security.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> authenticate(@RequestBody LoginDTO loginDto, HttpServletResponse response) {
+    public ResponseEntity<Void> authenticate(@Valid @RequestBody LoginDTO loginDto, HttpServletResponse response) {
         String token = authService.login(loginDto);
 
         Cookie accessToken = new Cookie("accessToken",  token);
@@ -39,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody LoginDTO loginDto) {
+    public ResponseEntity<String> register(@Valid @RequestBody LoginDTO loginDto) {
         if(!authService.register(loginDto)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error registering user");
         }
