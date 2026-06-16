@@ -9,10 +9,10 @@ import com.websec_exam_backend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +52,7 @@ public class AuthService {
         String jwt = jwtTokenProvider.generateToken(authentication);
 
         userRepository.findByUsername(jwtTokenProvider.getUsername(jwt))
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new BadCredentialsException(""));
 
         return jwt;
     }
@@ -76,11 +76,11 @@ public class AuthService {
         // Identity comes from the signed JWT; role permissions are then loaded from database.
         String username = jwtTokenProvider.getUsername(token);
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new BadCredentialsException(""));
 
         Set<Permission> permissions = roleRepository.findPermissionsByRoleId(user.getRole().getId());
         if(permissions.isEmpty()) {
-            throw new UsernameNotFoundException("No permissions found for role " + user.getRole().getRoleName());
+            throw new IllegalArgumentException("No permissions found for role " + user.getRole().getRoleName());
         }
 
         return new AuthorizationDTO(user.getRole().getRoleName(), username,user.getEmployee() == null ? null : user.getEmployee().getId(), permissions.stream().map(Permission::getPermissionName).toList());
