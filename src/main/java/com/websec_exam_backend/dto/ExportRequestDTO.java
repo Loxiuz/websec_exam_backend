@@ -22,7 +22,7 @@ public record ExportRequestDTO(
 		String selectedEntities,
 		@NotNull(message = "appliedFilters is required")
 		@Size(max = 20, message = "At most 20 filters are allowed")
-		List<Map<String, @Valid FilterDTO>> appliedFilters,
+		List<Map<String, FilterDTO>> appliedFilters,
 		@NotBlank(message = "fileName is required")
 		@Pattern(regexp = "^[a-zA-Z0-9._-]{1,100}$", message = "fileName may only contain letters, numbers, dot, underscore, and hyphen")
 		String fileName,
