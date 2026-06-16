@@ -3,6 +3,7 @@ package com.websec_exam_backend.controller;
 import com.websec_exam_backend.dto.LoginDTO;
 import com.websec_exam_backend.dto.AuthorizationDTO;
 import com.websec_exam_backend.security.AuthService;
+import com.websec_exam_backend.security.StatelessCsrfFilter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
@@ -34,6 +36,7 @@ public class AuthController {
         accessToken.setMaxAge(60 * 60);
 
         response.addCookie(accessToken);
+        response.addCookie(buildCsrfCookie(UUID.randomUUID().toString(), 60 * 60));
 
         return ResponseEntity.ok().build();
 
@@ -57,6 +60,7 @@ public class AuthController {
         accessToken.setMaxAge(0);
 
         response.addCookie(accessToken);
+        response.addCookie(buildCsrfCookie(null, 0));
 
         return ResponseEntity.ok("Logout successful");
     }
@@ -80,6 +84,15 @@ public class AuthController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(authorizationDTO);
+    }
+
+    private Cookie buildCsrfCookie(String value, int maxAgeSeconds) {
+        Cookie csrfCookie = new Cookie(StatelessCsrfFilter.CSRF_COOKIE_NAME, value);
+        csrfCookie.setHttpOnly(false);
+        csrfCookie.setSecure(true);
+        csrfCookie.setPath("/");
+        csrfCookie.setMaxAge(maxAgeSeconds);
+        return csrfCookie;
     }
 
 }
