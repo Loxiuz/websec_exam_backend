@@ -40,7 +40,8 @@ INSERT INTO employee (id, email, name) VALUES
                                        (UUID_TO_BIN('1a2b3c4d-5e6f-4707-8a9b-0c1d2e3f4007'), 'viktor.riis@airline.com', 'Viktor Riis'),
                                        (UUID_TO_BIN('1a2b3c4d-5e6f-4708-8a9b-0c1d2e3f4008'), 'laura.koch@airline.com', 'Laura Koch'),
                                        (UUID_TO_BIN('1a2b3c4d-5e6f-4709-8a9b-0c1d2e3f4009'), 'simon.frost@airline.com', 'Simon Frost'),
-                                       (UUID_TO_BIN('1a2b3c4d-5e6f-4710-8a9b-0c1d2e3f4010'), 'camilla.bach@airline.com', 'Camilla Bach');
+                                       (UUID_TO_BIN('1a2b3c4d-5e6f-4710-8a9b-0c1d2e3f4010'), 'camilla.bach@airline.com', 'Camilla Bach'),
+                                       (UUID_TO_BIN('f434581c-abe5-4a1b-8a7c-b7b1240193e3'), 'guest@guest.com', 'Guest User');
 
 INSERT INTO crew_member (email, name, phone_number) VALUES
                                                         ('pilot.john@airline.com', 'John Peterson', '+4511122233'),
@@ -171,7 +172,8 @@ INSERT INTO `users` (id, password, username, employee_id, role_id) VALUES
                         (16, '$2a$10$1sRCVqcMksi.D7Og7.NcN.J093AjFI.mauzQuq0bpNDot89fXw3Ei', 'oliver', UUID_TO_BIN('b6f13ab0-9d6f-4ad9-b01c-3f7f90f9e505'), 2),
                         (17, '$2a$10$rDWYldYicWpjFAz1hM3ySe.CYe/p7viYNdBj0FFxqFEIjvbb7QVmK', 'liam', UUID_TO_BIN('9a35f0de-c2d2-4fd0-a9a2-8d00f9b8c202'), 2),
                         (18, '$2a$10$wJFtxOV9x8ZshjPHwzJHSeMVUXhQM1dfWpFgLxurSD/WHEnQT5ChW', 'noah', UUID_TO_BIN('5f10d8fe-80e8-4ce8-98cf-1d8f3f17d404'), 2),
-                        (19, '$2a$10$D2nXCmXcCUCxZT.TF/Xq9.RlhmlafyjKrPxP6F90w68DGQfTKaSyy', 'aline', UUID_TO_BIN('1a2b3c4d-5e6f-4704-8a9b-0c1d2e3f4004'), 2);
+                        (19, '$2a$10$D2nXCmXcCUCxZT.TF/Xq9.RlhmlafyjKrPxP6F90w68DGQfTKaSyy', 'aline', UUID_TO_BIN('1a2b3c4d-5e6f-4704-8a9b-0c1d2e3f4004'), 2),
+                        (20, '$2a$12$ab0Cj4uzWBzCJVfEKF.QCO2WdRBkcvWxW9jwcYGMTHp/NSgIVCOKO', 'guest', UUID_TO_BIN('f434581c-abe5-4a1b-8a7c-b7b1240193e3'), 3);
 
 
     INSERT INTO export_request (export_creation, employee_id, id, export_format, file_name, selected_entities, status, applied_filters_json) VALUES
