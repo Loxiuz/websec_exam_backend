@@ -3,7 +3,7 @@ package com.websec_exam_backend.controller;
 import com.websec_exam_backend.dto.LoginDTO;
 import com.websec_exam_backend.dto.AuthorizationDTO;
 import com.websec_exam_backend.security.AuthService;
-import com.websec_exam_backend.security.StatelessCsrfFilter;
+import com.websec_exam_backend.security.CustomStatelessCsrfFilter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -87,7 +87,7 @@ public class AuthController {
     }
 
     private Cookie buildCsrfCookie(String value, int maxAgeSeconds) {
-        Cookie csrfCookie = new Cookie(StatelessCsrfFilter.CSRF_COOKIE_NAME, value);
+        Cookie csrfCookie = new Cookie(CustomStatelessCsrfFilter.CSRF_COOKIE_NAME, value);
         csrfCookie.setHttpOnly(false);
         csrfCookie.setSecure(true);
         csrfCookie.setPath("/");

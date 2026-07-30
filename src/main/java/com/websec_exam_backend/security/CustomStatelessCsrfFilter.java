@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Set;
 
 @Component
-public class StatelessCsrfFilter extends OncePerRequestFilter {
+public class CustomStatelessCsrfFilter extends OncePerRequestFilter {
 
     public static final String CSRF_COOKIE_NAME = "csrfToken";
     public static final String CSRF_HEADER_NAME = "X-CSRF-Token";
@@ -66,7 +66,7 @@ public class StatelessCsrfFilter extends OncePerRequestFilter {
         }
 
         for (Cookie cookie : cookies) {
-            if (StatelessCsrfFilter.CSRF_COOKIE_NAME.equals(cookie.getName())) {
+            if (CustomStatelessCsrfFilter.CSRF_COOKIE_NAME.equals(cookie.getName())) {
                 return cookie.getValue();
             }
         }

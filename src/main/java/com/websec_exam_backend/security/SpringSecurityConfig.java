@@ -26,7 +26,7 @@ public class SpringSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final StatelessCsrfFilter statelessCsrfFilter;
+    private final CustomStatelessCsrfFilter customStatelessCsrfFilter;
 
     @Bean
     public static PasswordEncoder passwordEncoder(){
@@ -53,7 +53,7 @@ public class SpringSecurityConfig {
                 // Ensures JWT auth runs before Spring's username/password authentication filter.
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 // Double-submit cookie CSRF validation for unsafe methods.
-                .addFilterBefore(statelessCsrfFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(customStatelessCsrfFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
