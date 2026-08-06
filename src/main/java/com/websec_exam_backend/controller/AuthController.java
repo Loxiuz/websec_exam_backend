@@ -44,7 +44,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody LoginDTO loginDto) {
-        if(!authService.register(loginDto)) {
+        if(Boolean.FALSE.equals(authService.register(loginDto))) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error registering user");
         }
         return ResponseEntity.ok("Registration successful");
@@ -52,7 +52,6 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletResponse response) {
-        //TODO: Possibly implement Redis to revoke access token
         Cookie accessToken = new Cookie("accessToken", null);
         accessToken.setHttpOnly(true);
         accessToken.setSecure(true);

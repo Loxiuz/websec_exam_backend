@@ -41,6 +41,7 @@ INSERT INTO employee (id, email, name) VALUES
                                        (UUID_TO_BIN('1a2b3c4d-5e6f-4708-8a9b-0c1d2e3f4008'), 'laura.koch@airline.com', 'Laura Koch'),
                                        (UUID_TO_BIN('1a2b3c4d-5e6f-4709-8a9b-0c1d2e3f4009'), 'simon.frost@airline.com', 'Simon Frost'),
                                        (UUID_TO_BIN('1a2b3c4d-5e6f-4710-8a9b-0c1d2e3f4010'), 'camilla.bach@airline.com', 'Camilla Bach'),
+                                       (UUID_TO_BIN('7fec666c-b826-41fd-b2ed-7f383f821f23'), 'malte@malte.com', 'Malte Petersen'),
                                        (UUID_TO_BIN('f434581c-abe5-4a1b-8a7c-b7b1240193e3'), 'guest@guest.com', 'Guest User');
 
 INSERT INTO crew_member (email, name, phone_number) VALUES
@@ -173,7 +174,8 @@ INSERT INTO `users` (id, password, username, employee_id, role_id) VALUES
                         (17, '$2a$10$rDWYldYicWpjFAz1hM3ySe.CYe/p7viYNdBj0FFxqFEIjvbb7QVmK', 'liam', UUID_TO_BIN('9a35f0de-c2d2-4fd0-a9a2-8d00f9b8c202'), 2),
                         (18, '$2a$10$wJFtxOV9x8ZshjPHwzJHSeMVUXhQM1dfWpFgLxurSD/WHEnQT5ChW', 'noah', UUID_TO_BIN('5f10d8fe-80e8-4ce8-98cf-1d8f3f17d404'), 2),
                         (19, '$2a$10$D2nXCmXcCUCxZT.TF/Xq9.RlhmlafyjKrPxP6F90w68DGQfTKaSyy', 'aline', UUID_TO_BIN('1a2b3c4d-5e6f-4704-8a9b-0c1d2e3f4004'), 2),
-                        (20, '$2a$12$ab0Cj4uzWBzCJVfEKF.QCO2WdRBkcvWxW9jwcYGMTHp/NSgIVCOKO', 'guest', UUID_TO_BIN('f434581c-abe5-4a1b-8a7c-b7b1240193e3'), 3);
+                        (20, '$2a$12$ab0Cj4uzWBzCJVfEKF.QCO2WdRBkcvWxW9jwcYGMTHp/NSgIVCOKO', 'guest', UUID_TO_BIN('f434581c-abe5-4a1b-8a7c-b7b1240193e3'), 3),
+                        (21, '$2a$12$VxaQgWyJdReC.tJvFQC79OQM710shzYgjKNQ0iS16J3qMMKf6n8F.', 'malte', UUID_TO_BIN('7fec666c-b826-41fd-b2ed-7f383f821f23'), 2);
 
 
     INSERT INTO export_request (export_creation, employee_id, id, export_format, file_name, selected_entities, status, applied_filters_json) VALUES
@@ -197,7 +199,9 @@ INSERT INTO `users` (id, password, username, employee_id, role_id) VALUES
                             (DATE('2025-08-29'),UUID_TO_BIN('1a2b3c4d-5e6f-4708-8a9b-0c1d2e3f4008'),UUID_TO_BIN('e8888888-8888-4888-8888-888888888888'),'json','exported_compliance_data.json','users, roles','FAILED','[{"users":{"field":"role_id","value":"2"}}]'),
                             (DATE('2025-08-30'),UUID_TO_BIN('1a2b3c4d-5e6f-4709-8a9b-0c1d2e3f4009'),UUID_TO_BIN('e9999999-9999-4999-8999-999999999999'),'csv','exported_ops_data.csv','crew_member_assignment','COMPLETED','[{"crew_member_assignment":{"field":"role","value":"Pilot"}}]'),
                             (DATE('2025-08-31'),UUID_TO_BIN('1a2b3c4d-5e6f-4710-8a9b-0c1d2e3f4010'),UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000000'),'csv','exported_weekly_digest.csv','export_request, export_notes','COMPLETED','[{"export_notes":{"field":"is_hidden","value":"false"}}]'),
-                            (DATE('2025-08-31'),UUID_TO_BIN('1a2b3c4d-5e6f-4710-8a9b-0c1d2e3f4010'),UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000012'),'csv','exported_weekly_digest.csv','export_request, export_notes','COMPLETED','[{"export_notes":{"field":"is_hidden","value":"false"}}]');
+                            (DATE('2025-08-31'),UUID_TO_BIN('7fec666c-b826-41fd-b2ed-7f383f821f23'),UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000012'),'csv','exported_weekly_digest.csv','export_request, export_notes','COMPLETED','[{"export_notes":{"field":"is_hidden","value":"false"}}]'),
+                            (DATE('2025-08-31'),UUID_TO_BIN('7fec666c-b826-41fd-b2ed-7f383f821f23'),UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000013'),'csv','exported_weekly_digest.csv','export_request, export_notes','COMPLETED','[{"export_notes":{"field":"is_hidden","value":"false"}}]'),
+                            (DATE('2025-08-31'),UUID_TO_BIN('7fec666c-b826-41fd-b2ed-7f383f821f23'),UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000014'),'csv','exported_weekly_digest.csv','export_request, export_notes','COMPLETED','[{"export_notes":{"field":"is_hidden","value":"false"}}]');
 
 
 INSERT INTO export_notes (employee_id, export_request_id, id, notes, creation_date, is_hidden) VALUES
@@ -220,7 +224,10 @@ INSERT INTO export_notes (employee_id, export_request_id, id, notes, creation_da
                             (UUID_TO_BIN('1a2b3c4d-5e6f-4707-8a9b-0c1d2e3f4007'), UUID_TO_BIN('e7777777-7777-4777-8777-777777777777'), UUID_TO_BIN('b7777777-7777-4777-8777-777777777777'), 'Route export completed and sent to planning team.', DATE('2025-08-28 08:55:00'), false),
                             (UUID_TO_BIN('1a2b3c4d-5e6f-4708-8a9b-0c1d2e3f4008'), UUID_TO_BIN('e8888888-8888-4888-8888-888888888888'), UUID_TO_BIN('b8888888-8888-4888-8888-888888888888'), 'Compliance export failed due to role mapping mismatch.', DATE('2025-08-29 18:05:00'), false),
                             (UUID_TO_BIN('1a2b3c4d-5e6f-4709-8a9b-0c1d2e3f4009'), UUID_TO_BIN('e9999999-9999-4999-8999-999999999999'), UUID_TO_BIN('b9999999-9999-4999-8999-999999999999'), 'Operations export generated successfully for pilot assignments.', DATE('2025-08-30 07:35:00'), false),
-                            (UUID_TO_BIN('1a2b3c4d-5e6f-4710-8a9b-0c1d2e3f4010'), UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000000'), UUID_TO_BIN('ba000000-0000-4a00-8a00-000000000000'), 'Weekly digest export completed and archived.', DATE('2025-08-31 19:25:00'), true);
+                            (UUID_TO_BIN('1a2b3c4d-5e6f-4710-8a9b-0c1d2e3f4010'), UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000000'), UUID_TO_BIN('ba000000-0000-4a00-8a00-000000000000'), 'Weekly digest export completed and archived.', DATE('2025-08-31 19:25:00'), true),
+                            (UUID_TO_BIN('7fec666c-b826-41fd-b2ed-7f383f821f23'), UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000012'), UUID_TO_BIN('bb000000-0000-4a00-8a00-000000000000'), 'Weekly digest export for Malte completed and archived.', DATE('2025-08-31 19:30:00'), true),
+                            (UUID_TO_BIN('7fec666c-b826-41fd-b2ed-7f383f821f23'), UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000012'), UUID_TO_BIN('bb000000-0000-4a00-8a00-000000000001'), 'Some notes', DATE('2025-08-31 19:30:00'), true),
+                            (UUID_TO_BIN('7fec666c-b826-41fd-b2ed-7f383f821f23'), UUID_TO_BIN('ea000000-0000-4a00-8a00-000000000013'), UUID_TO_BIN('bb000000-0000-4a00-8a00-000000000002'), 'Some notes', DATE('2025-08-31 19:30:00'), false);
 
 INSERT INTO permission(id, permission_name) VALUES
                             (UUID_TO_BIN('de660928-ecf9-478c-acc6-59194ad49e83'), 'CREATE_EXPORT'),

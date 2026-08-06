@@ -22,8 +22,7 @@ public class CustomStatelessCsrfFilter extends OncePerRequestFilter {
     private static final Set<String> SAFE_METHODS = Set.of(
             HttpMethod.GET.name(),
             HttpMethod.HEAD.name(),
-            HttpMethod.OPTIONS.name(),
-            HttpMethod.TRACE.name()
+            HttpMethod.OPTIONS.name()
     );
 
     @Override
