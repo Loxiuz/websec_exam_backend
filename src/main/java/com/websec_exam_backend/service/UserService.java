@@ -14,7 +14,7 @@ public class UserService {
 
     UserRepository userRepository;
 
-    public UserService(UserRepository userRepository, EmployeeRepository employeeRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -31,6 +31,8 @@ public class UserService {
                     user.getUsername(),
                     null,
                     user.getRole().getRoleName().split("_")[1],
+                    null,
+                    null,
                     null
             );
         }
@@ -39,7 +41,9 @@ public class UserService {
                 user.getUsername(),
                 employee.getEmail(),
                 user.getRole().getRoleName().split("_")[1],
-                employee.getId()
+                employee.getId(),
+                employee.getImage(),
+                employee.getImageMimeType()
         );
     }
 }

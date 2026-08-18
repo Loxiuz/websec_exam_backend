@@ -1,5 +1,5 @@
 package com.websec_exam_backend.dto;
 
 import java.util.UUID;
-public record AdminUserEmployeeDTO (String name, String username, String email, String role, UUID employeeId) {
+public record AdminUserEmployeeDTO (String name, String username, String email, String role, UUID employeeId, byte[] image, String imageMimeType) {
 }

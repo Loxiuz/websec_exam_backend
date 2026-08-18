@@ -27,4 +27,6 @@ public class Employee {
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] image;
 
+    private String imageMimeType;
+
 }

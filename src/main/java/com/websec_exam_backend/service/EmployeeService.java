@@ -42,9 +42,19 @@ public class EmployeeService {
         Employee employee = getEmployee(UUID.fromString(id));
         byte[] imageBytes = validateAndReadImage(file);
 
-        employee.setImage(imageBytes);
+        String contentType = file.getContentType();
+        if (contentType != null && (
+                contentType.startsWith("image/jpeg") ||
+                contentType.startsWith("image/jpg")  ||
+                contentType.startsWith("image/png")
+        )) {
+            employee.setImage(imageBytes);
+            employee.setImageMimeType(contentType);
 
-        employeeRepository.save(employee);
+            employeeRepository.save(employee);
+        } else {
+            throw new IllegalArgumentException("Only image files are allowed" + file.getContentType());
+        }
     }
 
     public byte[] getImage(String id) {
