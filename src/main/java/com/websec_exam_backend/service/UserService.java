@@ -3,11 +3,8 @@ package com.websec_exam_backend.service;
 import com.websec_exam_backend.dto.AdminUserEmployeeDTO;
 import com.websec_exam_backend.model.Employee;
 import com.websec_exam_backend.model.User;
-import com.websec_exam_backend.repository.EmployeeRepository;
 import com.websec_exam_backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {
