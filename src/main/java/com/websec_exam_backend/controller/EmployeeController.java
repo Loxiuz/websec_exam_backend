@@ -1,6 +1,5 @@
 package com.websec_exam_backend.controller;
 
-import com.websec_exam_backend.dto.EmployeeDTO;
 import com.websec_exam_backend.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
